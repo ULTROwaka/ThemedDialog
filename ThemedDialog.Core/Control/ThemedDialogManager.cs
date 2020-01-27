@@ -4,24 +4,35 @@ namespace ThemedDialog.Core.Control
 {
     public class ThemedDialogManager
     {
+        private readonly IDialogCharacterLoader _characterLoader;
         private readonly Dictionary<string, DialogCharacter> _characters;
+        public bool CaseSensetive;
+
+        public ThemedDialogManager(IDialogCharacterLoader characterLoader, bool caseSensetive = false)
+        {
+            _characterLoader = characterLoader;
+            CaseSensetive = caseSensetive;
+        }
+
+        public void LoadCharacters(string key)
+        {
+            IEnumerable<DialogCharacter> characters = _characterLoader.Load(key);
+            foreach (var character in characters)
+            {
+                _characters.Add(character.Name, character);
+            }
+        }
 
         public DialogCharacter GetDialogCharacter(string characterName)
         {
-            string upcasedCharacterName = characterName.ToUpper();
-            return _characters[upcasedCharacterName];
-        }
-
-        public IEnumerable<Dialog> GetCharacterDialogs(string characterName)
-        {
-            string upcasedCharacterName = characterName.ToUpper();
-            return _characters[upcasedCharacterName].Dialogs;
+            string name = CaseSensetive? characterName : characterName.ToUpper();
+            return _characters[name];
         }
 
         public IEnumerable<Dialog> GetAvailableCharacterDialogs(string characterName, IConditionChecker checker)
         {
-            string upcasedCharacterName = characterName.ToUpper();
-            return GetAvailableCharacterDialogs(_characters[upcasedCharacterName], checker);
+            string name = CaseSensetive ? characterName : characterName.ToUpper();
+            return GetAvailableCharacterDialogs(_characters[name], checker);
         }
 
         public IEnumerable<Dialog> GetAvailableCharacterDialogs(DialogCharacter character, IConditionChecker checker)
