@@ -12,7 +12,14 @@ namespace ThemedDialog.Core
         public DialogCharacter(string name, IEnumerable<Dialog> dialogs)
         {
             Name = name;
-            Dialogs = new List<Dialog>(dialogs);
+            if (dialogs == null)
+            {
+                Dialogs = new List<Dialog>();
+            }
+            else
+            {
+                Dialogs = new List<Dialog>(dialogs);
+            }
         }
 
         public override string ToString()

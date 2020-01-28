@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using ThemedDialog.Core;
+using ThemedDialog.Designer.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -22,9 +24,21 @@ namespace ThemedDialog.Designer.Views
     /// </summary>
     public sealed partial class ThemesManagePage : Page
     {
+        public ThemeManageViewModel ViewModel;
         public ThemesManagePage()
         {
             this.InitializeComponent();
+            ViewModel = new ThemeManageViewModel(new DialogCharacter[] 
+            { 
+                new DialogCharacter("Ivan",null),
+                new DialogCharacter("Bob",null),
+                new DialogCharacter("Kain",null)
+            }, new Theme[] 
+            {
+                new Theme("Sweet roll"),
+                new Theme("What?"),
+                new Theme("Bandits")
+            });
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

@@ -23,13 +23,15 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/> 
         </Grid.RowDefinitions>
         <ListView x:Name="ThemesList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
-                  BorderThickness="2" BorderBrush="{Binding ElementName=Search, Path=BorderBrush}"/>
+                  BorderThickness="2" BorderBrush="{Binding ElementName=Search, Path=BorderBrush}"
+                  ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"/>
         <TextBox x:Name="Search" Grid.Column="1" Grid.Row="0"
                  Margin="5,5,10,0"
-                 PlaceholderText="Search"/>
+                 PlaceholderText="Search"
+                 Text="{x:Bind ViewModel.SerchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <StackPanel Grid.Column="1" Grid.Row="1"
                     HorizontalAlignment="Left"  Margin="5,5,0,0"
                     Width="100">
@@ -55,7 +57,7 @@
                 </Button.Flyout>
             </Button>
             <Button HorizontalAlignment="Stretch" Margin="0,5,0,0"
-                    Content="Edit">
+                    Content="Edit" IsEnabled="{x:Bind ViewModel.CanEdit, Mode=OneWay}">
                 <Button.Flyout>
                     <Flyout Placement="Right" LightDismissOverlayMode="On">
                         <RelativePanel Width="150" Height="150">
@@ -76,7 +78,7 @@
                 </Button.Flyout>
             </Button>
             <Button HorizontalAlignment="Stretch" Margin="0,5,0,0"
-                    Content="Delete"/>
+                    Content="Delete" IsEnabled="{x:Bind ViewModel.CanDelete, Mode=OneWay}"/>
         </StackPanel>
     </Grid>
 </Page>
