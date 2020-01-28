@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace ThemedDialog.Core
 {
@@ -11,6 +12,14 @@ namespace ThemedDialog.Core
         {
             Name = name;
             Type = type;
+        }
+
+        public override string ToString()
+        {
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append("[").Append(Type.Name).Append("]")
+                .Append(" ").Append(Name);
+            return stringBuilder.ToString();
         }
     }
 }

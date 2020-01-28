@@ -10,5 +10,10 @@ namespace ThemedDialog.Core
         {
             Name = name;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

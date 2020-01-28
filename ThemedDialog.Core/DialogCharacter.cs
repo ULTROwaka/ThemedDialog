@@ -14,5 +14,10 @@ namespace ThemedDialog.Core
             Name = name;
             Dialogs = new List<Dialog>(dialogs);
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
