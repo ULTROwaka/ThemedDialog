@@ -27,11 +27,11 @@
         </Grid.RowDefinitions>
         <ListView x:Name="ThemesList" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"
                   BorderThickness="2" BorderBrush="{Binding ElementName=Search, Path=BorderBrush}"
-                  ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay}"/>
+                  ItemsSource="{x:Bind ViewModel.SearchResults, Mode=OneWay}" SelectedItem="{x:Bind ViewModel.SelectedTheme, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <TextBox x:Name="Search" Grid.Column="1" Grid.Row="0"
                  Margin="5,5,10,0"
                  PlaceholderText="Search"
-                 Text="{x:Bind ViewModel.SerchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{x:Bind ViewModel.SearchTerm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         <StackPanel Grid.Column="1" Grid.Row="1"
                     HorizontalAlignment="Left"  Margin="5,5,0,0"
                     Width="100">
@@ -66,13 +66,14 @@
                                        Text="Edit Theme"/>
                             <TextBox x:Name="ThemeNameEdit"
                                      RelativePanel.AlignVerticalCenterWithPanel="True"
-                                     Width="150"/>
+                                     Width="150"
+                                     Text="{x:Bind ViewModel.EditThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <Button RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
                                     Width="70"
                                     Content="Cancel"/>
                             <Button RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
-                                    Width="70"
-                                    Content="Edit"/>
+                                    Width="70"                                  
+                                    Content="Edit" Click="EditEdit_Click"/>
                         </RelativePanel>
                     </Flyout>
                 </Button.Flyout>

@@ -48,5 +48,10 @@ namespace ThemedDialog.Designer.Views
                 Frame.GoBack();
             }
         }
+
+        private void EditEdit_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Edit();
+        }
     }
 }
