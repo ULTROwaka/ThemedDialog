@@ -13,13 +13,13 @@ namespace ThemedDialog.Designer.ViewModels
 {
     public class ThemeManageViewModel : ReactiveObject
     {
-        public List<DialogCharacter> Characters { get; set; }
         public List<Theme> Themes { get; set; }
-        public List<Theme> SearchResults { [ObservableAsProperty] get; }
+        public List<Theme> SearchResults { [ObservableAsProperty]  get; }
         [Reactive]
         public Theme SelectedTheme { get; set; }
         public bool CanEdit { [ObservableAsProperty] get; }
         public bool CanDelete { [ObservableAsProperty] get; }
+        public bool CanAdd { [ObservableAsProperty] get; }
         [Reactive]
         public string NewThemeName { get; set; }
         [Reactive]
@@ -30,24 +30,27 @@ namespace ThemedDialog.Designer.ViewModels
         public ThemeManageViewModel(IEnumerable<DialogCharacter> characters, IEnumerable<Theme> themes)
         {
             Themes = new List<Theme>(themes);
-            Characters = new List<DialogCharacter>(characters);
-            SearchResults = new List<Theme>(Themes);
+            SearchResults = new List<Theme>(themes);
 
             this.WhenAnyValue(x => x.SearchTerm)
                 .Throttle(TimeSpan.FromMilliseconds(300))
-                .Select(term => term?.Trim())
+                .Select(x => x?.Trim())
                 .DistinctUntilChanged()
                 .Select(term => Search(term).ToList())
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .ToPropertyEx(this, x => x.SearchResults);
+
+            this.WhenAnyValue(x => x.NewThemeName)
+                .Select(x => !string.IsNullOrEmpty(x))
+                .ToPropertyEx(this, x => x.CanAdd);
 
             this.WhenAnyValue(x => x.SelectedTheme)
                 .Where(selected => selected != null)
                 .Select(selected => selected.Name)
                 .Subscribe(name => EditThemeName = name);
 
-            this.WhenAnyValue(x => x.SelectedTheme)
-                .Select(x => x != null)
+            this.WhenAnyValue(x => x.SelectedTheme, x => x.EditThemeName)
+                .Select(x => x.Item1 != null && !string.IsNullOrEmpty(x.Item2?.Trim() ?? string.Empty))
                 .ToPropertyEx(this, x => x.CanEdit);
 
             this.WhenAnyValue(x => x.SelectedTheme)
@@ -68,7 +71,16 @@ namespace ThemedDialog.Designer.ViewModels
         {
             var theme = Themes.Where(t => t.Name.Equals(SelectedTheme.Name)).Single();
             theme.Name = EditThemeName;
-            SearchTerm = SearchTerm + string.Empty;
+        }
+
+        public void Add()
+        {
+            Themes.Add(new Theme(NewThemeName));
+        }
+
+        public void Delete()
+        {
+            Themes.Remove(SelectedTheme);
         }
     }
 }

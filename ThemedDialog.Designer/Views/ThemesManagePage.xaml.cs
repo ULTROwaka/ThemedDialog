@@ -53,5 +53,15 @@ namespace ThemedDialog.Designer.Views
         {
             ViewModel.Edit();
         }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Delete();
+        }
+
+        private void AddAdd_Click(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Add();
+        }
     }
 }
