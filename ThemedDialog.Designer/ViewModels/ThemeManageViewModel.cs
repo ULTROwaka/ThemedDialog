@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reactive.Linq;
 using DynamicData;
+using DynamicData.Alias;
+using DynamicData.Binding;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using ThemedDialog.Core;
-
+using ThemedDialog.Designer.ViewModels.Proxy;
 
 namespace ThemedDialog.Designer.ViewModels
 {
     public class ThemeManageViewModel : ReactiveObject
     {
-        public List<Theme> Themes { get; set; }
-        public List<Theme> SearchResults { [ObservableAsProperty]  get; }
+        private SourceList<Theme> Themes { get; set; }
+        private readonly ReadOnlyObservableCollection<Theme> _searchResults;
+        public ReadOnlyObservableCollection<Theme> SearchResults => _searchResults;
         [Reactive]
         public Theme SelectedTheme { get; set; }
         public bool CanEdit { [ObservableAsProperty] get; }
@@ -29,16 +33,20 @@ namespace ThemedDialog.Designer.ViewModels
 
         public ThemeManageViewModel(IEnumerable<DialogCharacter> characters, IEnumerable<Theme> themes)
         {
-            Themes = new List<Theme>(themes);
-            SearchResults = new List<Theme>(themes);
+            Themes = new SourceList<Theme>();
+            Themes.AddRange(themes);
 
-            this.WhenAnyValue(x => x.SearchTerm)
+            var filter = this.WhenAnyValue(x => x.SearchTerm)
                 .Throttle(TimeSpan.FromMilliseconds(300))
-                .Select(x => x?.Trim())
                 .DistinctUntilChanged()
-                .Select(term => Search(term).ToList())
+                .Select(BuildFilter);
+
+            Themes.Connect()
+                .Filter(filter)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .ToPropertyEx(this, x => x.SearchResults);
+                .Bind(out _searchResults)
+                .DisposeMany()
+                .Subscribe();
 
             this.WhenAnyValue(x => x.NewThemeName)
                 .Select(x => !string.IsNullOrEmpty(x))
@@ -56,21 +64,23 @@ namespace ThemedDialog.Designer.ViewModels
             this.WhenAnyValue(x => x.SelectedTheme)
                 .Select(x => x != null)
                 .ToPropertyEx(this, x => x.CanDelete);
+
+           
         }
-        private IEnumerable<Theme> Search(string term)
+
+        private static Func<Theme, bool> BuildFilter(string searchText)
         {
-            if (term == null)
+            if (string.IsNullOrEmpty(searchText))
             {
-                term = string.Empty;
+                return theme => true;
             }
-            var themes = Themes.Where(t => t.Name.ToUpper().Contains(term.ToUpper()));
-            return themes;
+
+            return theme => theme.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
         }
 
         public void Edit()
         {
-            var theme = Themes.Where(t => t.Name.Equals(SelectedTheme.Name)).Single();
-            theme.Name = EditThemeName;
+            Themes.Replace(SelectedTheme, new Theme(EditThemeName));
         }
 
         public void Add()

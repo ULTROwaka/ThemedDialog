@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\Proxy\ProxyTheme.cs" />
     <Compile Include="ViewModels\ThemeManageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -159,14 +160,17 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="DynamicData.ReactiveUI">
+      <Version>6.11.0.2613</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI">
-      <Version>11.1.21</Version>
+      <Version>11.1.23</Version>
     </PackageReference>
     <PackageReference Include="ReactiveUI.Fody">
-      <Version>11.1.21</Version>
+      <Version>11.1.23</Version>
     </PackageReference>
     <PackageReference Include="System.Reactive">
       <Version>4.3.2</Version>
