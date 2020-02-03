@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Reactive.Linq;
-using DynamicData;
+﻿using DynamicData;
 using DynamicData.Alias;
-using DynamicData.Binding;
+
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Reactive.Linq;
+
 using ThemedDialog.Core;
-using ThemedDialog.Designer.ViewModels.Proxy;
 
 namespace ThemedDialog.Designer.ViewModels
 {
@@ -19,15 +19,20 @@ namespace ThemedDialog.Designer.ViewModels
         private SourceList<Theme> Themes { get; set; }
         private readonly ReadOnlyObservableCollection<Theme> _searchResults;
         public ReadOnlyObservableCollection<Theme> SearchResults => _searchResults;
+
         [Reactive]
         public Theme SelectedTheme { get; set; }
+
         public bool CanEdit { [ObservableAsProperty] get; }
         public bool CanDelete { [ObservableAsProperty] get; }
         public bool CanAdd { [ObservableAsProperty] get; }
+
         [Reactive]
         public string NewThemeName { get; set; }
+
         [Reactive]
         public string EditThemeName { get; set; }
+
         [Reactive]
         public string SearchTerm { get; set; }
 
@@ -43,6 +48,7 @@ namespace ThemedDialog.Designer.ViewModels
 
             Themes.Connect()
                 .Filter(filter)
+                .Sort(new ThemeComparer())
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .Bind(out _searchResults)
                 .DisposeMany()
@@ -64,8 +70,6 @@ namespace ThemedDialog.Designer.ViewModels
             this.WhenAnyValue(x => x.SelectedTheme)
                 .Select(x => x != null)
                 .ToPropertyEx(this, x => x.CanDelete);
-
-           
         }
 
         private static Func<Theme, bool> BuildFilter(string searchText)
@@ -80,7 +84,8 @@ namespace ThemedDialog.Designer.ViewModels
 
         public void Edit()
         {
-            Themes.Replace(SelectedTheme, new Theme(EditThemeName));
+            Themes.Remove(SelectedTheme);
+            Themes.Add(new Theme(EditThemeName));
         }
 
         public void Add()

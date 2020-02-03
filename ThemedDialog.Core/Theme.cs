@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace ThemedDialog.Core
 {
@@ -14,6 +16,14 @@ namespace ThemedDialog.Core
         public override string ToString()
         {
             return Name;
+        }
+    }
+
+    public class ThemeComparer : IComparer<Theme>
+    {
+        public int Compare(Theme x, Theme y)
+        {
+            return new CaseInsensitiveComparer().Compare(x.Name, y.Name);
         }
     }
 }

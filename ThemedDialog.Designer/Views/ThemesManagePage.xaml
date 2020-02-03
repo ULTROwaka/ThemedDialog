@@ -38,7 +38,7 @@
             <Button HorizontalAlignment="Stretch" Margin="0,0,0,0"
                     Content="Add">
                 <Button.Flyout>
-                    <Flyout Placement="Right" LightDismissOverlayMode="On">
+                    <Flyout x:Name="AddFlyout" Placement="Right" LightDismissOverlayMode="On">
                         <RelativePanel Width="150" Height="150">
                             <TextBlock x:Name="LabelAdd"
                                        RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"
@@ -61,7 +61,7 @@
             <Button HorizontalAlignment="Stretch" Margin="0,5,0,0"
                     Content="Edit" IsEnabled="{x:Bind ViewModel.CanEdit, Mode=OneWay}">
                 <Button.Flyout>
-                    <Flyout Placement="Right" LightDismissOverlayMode="On">
+                    <Flyout x:Name="EditFlyout" Placement="Right" LightDismissOverlayMode="On">
                         <RelativePanel Width="150" Height="150">
                             <TextBlock x:Name="LabelEdit"
                                        RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"
