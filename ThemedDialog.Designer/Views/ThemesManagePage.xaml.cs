@@ -1,8 +1,9 @@
-﻿using ThemedDialog.Core;
+﻿using ThemedDialog.Designer.Repositories;
 using ThemedDialog.Designer.ViewModels;
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -11,24 +12,24 @@ namespace ThemedDialog.Designer.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ThemesManagePage : Page
+    internal sealed partial class ThemesManagePage : Page
     {
-        public ThemeManageViewModel ViewModel;
+        internal ThemeManageViewModel ViewModel;
 
         public ThemesManagePage()
         {
             this.InitializeComponent();
-            ViewModel = new ThemeManageViewModel(new DialogCharacter[]
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            if (ViewModel == null)
             {
-                new DialogCharacter("Ivan",null),
-                new DialogCharacter("Bob",null),
-                new DialogCharacter("Kain",null)
-            }, new Theme[]
-            {
-                new Theme("Sweet roll"),
-                new Theme("What?"),
-                new Theme("Bandits")
-            });
+                var param = (e.Parameter as ThemesManagePageParameter);
+                ViewModel = new ThemeManageViewModel(param.Repository);
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
@@ -55,5 +56,10 @@ namespace ThemedDialog.Designer.Views
         {
             ViewModel.Delete();
         }
+    }
+
+    internal class ThemesManagePageParameter
+    {
+        public Repository Repository { get; set; }
     }
 }

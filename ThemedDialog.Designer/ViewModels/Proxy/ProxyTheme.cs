@@ -12,8 +12,11 @@ namespace ThemedDialog.Designer.ViewModels.Proxy
     public class ProxyTheme : ReactiveObject
     {
         private readonly Theme _model;
-        [Reactive]
-        public string Name { get; set; }
+        public string Name
+        {
+            get => _model.Name;
+            set => this.RaiseAndSetIfChanged(ref _model.Name, value);
+        }
 
         public ProxyTheme(Theme model)
         {

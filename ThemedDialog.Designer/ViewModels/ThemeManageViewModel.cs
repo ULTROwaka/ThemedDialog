@@ -11,43 +11,42 @@ using System.Linq;
 using System.Reactive.Linq;
 
 using ThemedDialog.Core;
+using ThemedDialog.Designer.Repositories;
 using ThemedDialog.Designer.ViewModels.Proxy;
 
 namespace ThemedDialog.Designer.ViewModels
 {
-    public class ThemeManageViewModel : ReactiveObject
+    internal class ThemeManageViewModel : ReactiveObject
     {
-        private SourceList<Theme> Themes { get; set; }
-        private readonly ReadOnlyObservableCollection<ProxyTheme> _searchResults;
+        private readonly Repository _repository;
+
+        private readonly ReadOnlyObservableCollection<ProxyTheme> _searchResults;      
         public ReadOnlyObservableCollection<ProxyTheme> SearchResults => _searchResults;
+        [Reactive]
+        internal ProxyTheme SelectedTheme { get; set; }
+        internal bool CanEdit { [ObservableAsProperty] get; }
+        internal bool CanDelete { [ObservableAsProperty] get; }
+        internal bool CanAdd { [ObservableAsProperty] get; }
 
         [Reactive]
-        public ProxyTheme SelectedTheme { get; set; }
-
-        public bool CanEdit { [ObservableAsProperty] get; }
-        public bool CanDelete { [ObservableAsProperty] get; }
-        public bool CanAdd { [ObservableAsProperty] get; }
+        internal string NewThemeName { get; set; }
 
         [Reactive]
-        public string NewThemeName { get; set; }
+        internal string EditThemeName { get; set; }
 
         [Reactive]
-        public string EditThemeName { get; set; }
+        internal string SearchTerm { get; set; }
 
-        [Reactive]
-        public string SearchTerm { get; set; }
-
-        public ThemeManageViewModel(IEnumerable<DialogCharacter> characters, IEnumerable<Theme> themes)
+        internal ThemeManageViewModel(Repository repository)
         {
-            Themes = new SourceList<Theme>();
-            Themes.AddRange(themes);
+            _repository = repository;
 
             var filter = this.WhenAnyValue(x => x.SearchTerm)
                 .Throttle(TimeSpan.FromMilliseconds(300))
                 .DistinctUntilChanged()
                 .Select(BuildFilter);
 
-            Themes.Connect()
+            _repository.Themes
                 .Filter(filter)
                 .Sort(new ThemeComparer())
                 .ObserveOn(RxApp.MainThreadScheduler)
@@ -85,19 +84,23 @@ namespace ThemedDialog.Designer.ViewModels
             return theme => theme.Name.Contains(searchText, StringComparison.OrdinalIgnoreCase);
         }
 
-        public void Edit()
+        internal void Edit()
         {
             SelectedTheme.Name = EditThemeName;
+            /*var original = SelectedTheme.ExtractModel();
+            var newItem = new Theme(NewThemeName);
+
+            _repository.Edit(original, newItem);*/
         }
 
-        public void Add()
+        internal void Add()
         {
-            Themes.Add(new Theme(NewThemeName));
+            _repository.Add(new Theme(NewThemeName));
         }
 
-        public void Delete()
+        internal void Delete()
         {
-            Themes.Remove(SelectedTheme.ExtractModel());
+            _repository.Remove(SelectedTheme.ExtractModel());
         }
     }
 }

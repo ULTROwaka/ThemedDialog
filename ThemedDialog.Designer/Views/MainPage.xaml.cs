@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+
+using ThemedDialog.Core;
+using ThemedDialog.Designer.Repositories;
 using ThemedDialog.Designer.ViewModels;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -24,23 +17,39 @@ namespace ThemedDialog.Designer.Views
     public sealed partial class MainPage : Page
     {
         private readonly MainPageViewModel ViewModel;
+        private readonly Repository _repository;
+
         public MainPage()
         {
             this.InitializeComponent();
 
             ViewModel = new MainPageViewModel();
 
-
             this.DataContext = ViewModel;
 
-            //CharactersList.ItemsSource = ViewModel.Characters;
-            //ThemesList.ItemsSource = ViewModel.Themes;
-            //VariablesList.ItemsSource = ViewModel.Variables;
+            //TODO Replace with data loader
+            _repository = new Repository(new Theme[]
+            {
+                new Theme("Sweet roll"),
+                new Theme("What?"),
+                new Theme("Bandits")
+            },
+            Array.Empty<Variable>(),
+            new DialogCharacter[]
+            {
+                new DialogCharacter("Ivan",null),
+                new DialogCharacter("Bob",null),
+                new DialogCharacter("Kain",null)
+            });
         }
 
         private void ManageThemesListBtn_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ThemesManagePage));
+            var param = new ThemesManagePageParameter()
+            {
+                Repository = _repository
+            };
+            Frame.Navigate(typeof(ThemesManagePage), param);
         }
     }
 }

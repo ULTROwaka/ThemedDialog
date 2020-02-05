@@ -1,9 +1,8 @@
 ﻿using DynamicData;
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using ThemedDialog.Core;
 
 namespace ThemedDialog.Designer.Repositories
@@ -58,6 +57,21 @@ namespace ThemedDialog.Designer.Repositories
         internal void Remove(DialogCharacter item)
         {
             _characters.Remove(item);
+        }
+
+        internal void Edit(Theme original, Theme newItem)
+        {
+            _themes.Replace(original, newItem);
+        }
+
+        internal void Edit(Variable original, Variable newItem)
+        {
+            _variables.Replace(original, newItem);
+        }
+
+        internal void Edit(DialogCharacter original, DialogCharacter newItem)
+        {
+            _characters.Replace(original, newItem);
         }
     }
 }
