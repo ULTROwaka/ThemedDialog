@@ -25,5 +25,11 @@ namespace ThemedDialog.Designer.ViewModels.Proxy
         {
             return Name;
         }
+
+        public Theme ExtractModel()
+        {
+            _model.Name = Name;
+            return _model;
+        }
     }
 }

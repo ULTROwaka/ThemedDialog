@@ -11,17 +11,18 @@ using System.Linq;
 using System.Reactive.Linq;
 
 using ThemedDialog.Core;
+using ThemedDialog.Designer.ViewModels.Proxy;
 
 namespace ThemedDialog.Designer.ViewModels
 {
     public class ThemeManageViewModel : ReactiveObject
     {
         private SourceList<Theme> Themes { get; set; }
-        private readonly ReadOnlyObservableCollection<Theme> _searchResults;
-        public ReadOnlyObservableCollection<Theme> SearchResults => _searchResults;
+        private readonly ReadOnlyObservableCollection<ProxyTheme> _searchResults;
+        public ReadOnlyObservableCollection<ProxyTheme> SearchResults => _searchResults;
 
         [Reactive]
-        public Theme SelectedTheme { get; set; }
+        public ProxyTheme SelectedTheme { get; set; }
 
         public bool CanEdit { [ObservableAsProperty] get; }
         public bool CanDelete { [ObservableAsProperty] get; }
@@ -50,6 +51,8 @@ namespace ThemedDialog.Designer.ViewModels
                 .Filter(filter)
                 .Sort(new ThemeComparer())
                 .ObserveOn(RxApp.MainThreadScheduler)
+                .Transform(x => new ProxyTheme(x))
+                .AutoRefresh()
                 .Bind(out _searchResults)
                 .DisposeMany()
                 .Subscribe();
@@ -84,8 +87,7 @@ namespace ThemedDialog.Designer.ViewModels
 
         public void Edit()
         {
-            Themes.Remove(SelectedTheme);
-            Themes.Add(new Theme(EditThemeName));
+            SelectedTheme.Name = EditThemeName;
         }
 
         public void Add()
@@ -95,7 +97,7 @@ namespace ThemedDialog.Designer.ViewModels
 
         public void Delete()
         {
-            Themes.Remove(SelectedTheme);
+            Themes.Remove(SelectedTheme.ExtractModel());
         }
     }
 }

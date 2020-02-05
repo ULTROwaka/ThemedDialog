@@ -119,6 +119,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\Repository.cs" />
     <Compile Include="ViewModels\Proxy\ProxyTheme.cs" />
     <Compile Include="ViewModels\ThemeManageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
