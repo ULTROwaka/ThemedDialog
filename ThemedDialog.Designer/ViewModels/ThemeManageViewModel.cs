@@ -87,10 +87,6 @@ namespace ThemedDialog.Designer.ViewModels
         internal void Edit()
         {
             SelectedTheme.Name = EditThemeName;
-            /*var original = SelectedTheme.ExtractModel();
-            var newItem = new Theme(NewThemeName);
-
-            _repository.Edit(original, newItem);*/
         }
 
         internal void Add()

@@ -31,7 +31,6 @@ namespace ThemedDialog.Designer.ViewModels.Proxy
 
         public Theme ExtractModel()
         {
-            _model.Name = Name;
             return _model;
         }
     }

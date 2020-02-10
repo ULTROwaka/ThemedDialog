@@ -49,7 +49,7 @@
                                      Text="{x:Bind ViewModel.NewThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <Button RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
                                     Width="70"
-                                    Content="Cancel"/>
+                                    Content="Cancel" Click="AddCancel_Click"/>
                             <Button RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
                                     Width="70"
                                     IsEnabled="{x:Bind ViewModel.CanAdd, Mode=OneWay}"
@@ -72,7 +72,7 @@
                                      Text="{x:Bind ViewModel.EditThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <Button RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
                                     Width="70"
-                                    Content="Cancel"/>
+                                    Content="Cancel" Click="EditCancel_Click"/>
                             <Button RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
                                     Width="70"
                                     IsEnabled="{x:Bind ViewModel.CanEdit, Mode=OneWay}"

@@ -12,7 +12,7 @@ namespace ThemedDialog.Designer.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    internal sealed partial class ThemesManagePage : Page
+    public sealed partial class ThemesManagePage : Page
     {
         internal ThemeManageViewModel ViewModel;
 
@@ -52,6 +52,16 @@ namespace ThemedDialog.Designer.Views
             EditFlyout.Hide();
         }
 
+        private void AddCancel_Click(object sender, RoutedEventArgs e)
+        {
+            AddFlyout.Hide();
+        }
+
+        private void EditCancel_Click(object sender, RoutedEventArgs e)
+        {
+            EditFlyout.Hide();
+        }
+
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.Delete();
@@ -60,6 +70,6 @@ namespace ThemedDialog.Designer.Views
 
     internal class ThemesManagePageParameter
     {
-        public Repository Repository { get; set; }
+        internal Repository Repository { get; set; }
     }
 }
