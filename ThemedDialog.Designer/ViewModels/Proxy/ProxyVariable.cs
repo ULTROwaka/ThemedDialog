@@ -1,5 +1,4 @@
 ﻿using ReactiveUI;
-using ReactiveUI.Fody.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +8,26 @@ using ThemedDialog.Core;
 
 namespace ThemedDialog.Designer.ViewModels.Proxy
 {
-    public class ProxyTheme : ReactiveObject
+    class ProxyVariable : ReactiveObject
     {
-        private readonly Theme _model;
+        private readonly Variable _model;
         public string Name
         {
             get => _model.Name;
             set => this.RaiseAndSetIfChanged(ref _model.Name, value);
         }
 
-        public ProxyTheme(Theme model)
+        public Type Type
+        {
+            get => _model.Type;
+            set => this.RaiseAndSetIfChanged(ref _model.Type, value);
+        }
+
+        public ProxyVariable(Variable model)
         {
             _model = model;
             Name = _model.Name;
+            Type = _model.Type;
         }
 
         public override string ToString()
@@ -29,7 +35,7 @@ namespace ThemedDialog.Designer.ViewModels.Proxy
             return _model.ToString();
         }
 
-        public Theme ExtractModel()
+        public Variable ExtractModel()
         {
             return _model;
         }

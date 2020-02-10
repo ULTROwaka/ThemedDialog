@@ -40,7 +40,7 @@
         <ListView x:Name="VariablesList" Grid.Column="2" Grid.Row="0"/>
         <Button x:Name="ManageVariablesListBtn" Grid.Column="2" Grid.Row="1"
                 HorizontalAlignment="Stretch" Margin="10,0,20,0"
-                Content="Manage" />
+                Content="Manage" Click="ManageVariablesListBtn_Click"/>
 
     </Grid>
 </Page>

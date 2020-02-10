@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ThemedDialog.Core
@@ -20,6 +22,14 @@ namespace ThemedDialog.Core
             stringBuilder.Append("[").Append(Type.Name).Append("]")
                 .Append(" ").Append(Name);
             return stringBuilder.ToString();
+        }
+    }
+
+    public class VariableComparer : IComparer<Variable>
+    {
+        public int Compare(Variable x, Variable y)
+        {
+            return new CaseInsensitiveComparer().Compare(x.Name, y.Name);
         }
     }
 }

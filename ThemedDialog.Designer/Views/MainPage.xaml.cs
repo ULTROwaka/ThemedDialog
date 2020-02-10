@@ -51,5 +51,14 @@ namespace ThemedDialog.Designer.Views
             };
             Frame.Navigate(typeof(ThemesManagePage), param);
         }
+
+        private void ManageVariablesListBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var param = new VariablesManagePageParameter()
+            {
+                Repository = _repository
+            };
+            Frame.Navigate(typeof(VariablesManagePage), param);
+        }
     }
 }

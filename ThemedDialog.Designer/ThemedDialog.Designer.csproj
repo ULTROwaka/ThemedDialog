@@ -121,7 +121,9 @@
     </Compile>
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="ViewModels\Proxy\ProxyTheme.cs" />
-    <Compile Include="ViewModels\ThemeManageViewModel.cs" />
+    <Compile Include="ViewModels\Proxy\ProxyVariable.cs" />
+    <Compile Include="ViewModels\ThemesManageViewModel.cs" />
+    <Compile Include="ViewModels\VariablesManageViewModel.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -129,6 +131,9 @@
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="Views\ThemesManagePage.xaml.cs">
       <DependentUpon>ThemesManagePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VariablesManagePage.xaml.cs">
+      <DependentUpon>VariablesManagePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +161,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ThemesManagePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VariablesManagePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

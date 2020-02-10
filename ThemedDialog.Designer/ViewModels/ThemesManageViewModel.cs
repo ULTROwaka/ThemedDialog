@@ -5,7 +5,6 @@ using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Linq;
@@ -16,17 +15,17 @@ using ThemedDialog.Designer.ViewModels.Proxy;
 
 namespace ThemedDialog.Designer.ViewModels
 {
-    internal class ThemeManageViewModel : ReactiveObject
+    internal class ThemesManageViewModel : ReactiveObject
     {
         private readonly Repository _repository;
-
-        private readonly ReadOnlyObservableCollection<ProxyTheme> _searchResults;      
+        private readonly ReadOnlyObservableCollection<ProxyTheme> _searchResults;
         public ReadOnlyObservableCollection<ProxyTheme> SearchResults => _searchResults;
-        [Reactive]
-        internal ProxyTheme SelectedTheme { get; set; }
         internal bool CanEdit { [ObservableAsProperty] get; }
         internal bool CanDelete { [ObservableAsProperty] get; }
         internal bool CanAdd { [ObservableAsProperty] get; }
+
+        [Reactive]
+        internal ProxyTheme SelectedTheme { get; set; }
 
         [Reactive]
         internal string NewThemeName { get; set; }
@@ -37,7 +36,7 @@ namespace ThemedDialog.Designer.ViewModels
         [Reactive]
         internal string SearchTerm { get; set; }
 
-        internal ThemeManageViewModel(Repository repository)
+        internal ThemesManageViewModel(Repository repository)
         {
             _repository = repository;
 
